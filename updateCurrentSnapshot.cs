@@ -15,14 +15,14 @@ namespace CarbonSoftware.YiCamerazSnapshots
         const string CurrentJpgName = "current.jpg";
             
         [FunctionName("updateCurrentSnapshot")]
-        public static async Task Run([BlobTrigger("periodic-snapshots/{name}", Connection = "yisnapshots_STORAGE")]Stream myBlob, string name, ILogger log)
+        public static async Task Run([BlobTrigger("periodic-snapshots/{name}", Connection = "AzureWebJobsStorage")]Stream myBlob, string name, ILogger log)
         {
         
             if(CurrentJpgName.Equals(name))return;
 
             // retrieve the SOURCE and DESTINATION Storage Account Connection Strings
-            var sourceConnString = Environment.GetEnvironmentVariable("yisnapshots_STORAGE");
-            var destConnString = Environment.GetEnvironmentVariable("yisnapshots_STORAGE");
+            var sourceConnString = Environment.GetEnvironmentVariable("AzureWebJobsStorage");
+            var destConnString = Environment.GetEnvironmentVariable("AzureWebJobsStorage");
 
             // Create SOURCE Blob Client
             var sourceBlobClient = new BlobClient(sourceConnString, "periodic-snapshots", name);
